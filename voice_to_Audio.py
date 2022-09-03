@@ -1,6 +1,12 @@
 #First basic step is speech to text
 
+
 import speech_recognition as sr
+from gtts import gTTS
+import os
+import playsound
+import time
+
 
 #to make sure it listen
 
@@ -20,4 +26,26 @@ def listen():
     except sr.RequestError as e:
         print("Request Failed")
     return data
-listen()        
+## Responding
+def respond(String):
+    print(String)
+    tts=gTTS(text=String,lang='en')
+    tts.save('speech.mp3')
+    playsound.playsound('speech.mp3')
+    os.remove('speech.mp3')
+
+def voice_assistant(data):
+    """Giving your actions"""
+    if "how are you" in data:
+        listening =True
+        respond("Good and doing well")
+    if "time" in data:
+        listening=True
+        respond(time.ctime())
+time.sleep(2)
+respond("Hey Gayathri How are you")
+listening =True
+if listening==True:
+    data=listen()
+    listening =voice_assistant(data)
+
